@@ -6,9 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "local": "nest build  --tsc && sls offline",
-    "deploy": "nest build  --tsc && sls deploy",
-    "build": "nest build  --tsc",
+    "local": "nest build --tsc && sls offline",
+    "build": "npm run test && nest build  --tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
