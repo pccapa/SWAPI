@@ -1,0 +1,61 @@
+service: swapi
+plugins:
+  #- serverless-jetpack
+  - serverless-dynamodb
+  - serverless-offline
+  - serverless-dynamodb-local
+
+package:
+  patterns:
+    - '!**'
+    - 'node_modules/**'
+    - 'dist/**' 
+  excludeDevDependencies: true
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  profile: serverlessUser
+  region: eu-west-1
+  timeout: 10
+  environment:
+    tableName: starwarsTable
+    region: eu-west-1
+    domainStartwars: https://swapi.py4e.com
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: '*'
+
+functions:
+  getPeople:
+    handler: dist/lambda.handler
+    events:
+      - httpApi:
+          path: /people/{id}
+          method: get
+
+  savePeople:
+    handler: dist/lambda.handler
+    events:
+      - httpApi:
+          path: /people
+          method: post
+
+resources:
+  Resources:
+    MyDynamoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: starwarsTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+

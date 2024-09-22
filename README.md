@@ -1,2 +1,2 @@
-# SWAPI
-Proyecto SWAPI uso de la libreria SWAPI para el consumo de datos
+# Proyecto SWAPI
+La documentación del proyecto se encuentra en el archivo Readme.docx
